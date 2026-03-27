@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "ProblemSession": {
+      "title": "Problem Session",
+      "description": "A conversation session focused on solving a specific practical problem.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user ID." },
+        "category": { "type": "string", "enum": ["decision", "communication", "planning", "stress", "awkward", "other"], "description": "The problem category." },
+        "title": { "type": "string", "description": "A short summary of the problem." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the session started." }
+      },
+      "required": ["uid", "category", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A message within a problem-solving session.",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string", "description": "The ID of the parent session." },
+        "role": { "type": "string", "enum": ["user", "assistant"], "description": "Who sent the message." },
+        "content": { "type": "string", "description": "The message text." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the message was sent." }
+      },
+      "required": ["sessionId", "role", "content", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/sessions": {
+      "schema": "ProblemSession",
+      "description": "User's problem-solving sessions."
+    },
+    "/users/{userId}/sessions/{sessionId}/messages": {
+      "schema": "Message",
+      "description": "Messages within a specific session."
+    }
+  }
+}
